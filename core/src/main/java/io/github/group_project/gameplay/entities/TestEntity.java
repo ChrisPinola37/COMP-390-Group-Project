@@ -2,15 +2,16 @@ package io.github.group_project.gameplay.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
 
 import io.github.group_project.engine.entity.Entity;
 
 public class TestEntity extends Entity {
-    String name = "Also A Test";
 
     public TestEntity()
     {
         super();
+        name = "Also A Test";
         SetSprite("freddy_yeah.png");
     }
 

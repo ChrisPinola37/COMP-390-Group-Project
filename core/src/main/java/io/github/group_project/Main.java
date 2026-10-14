@@ -15,6 +15,8 @@ public class Main extends ApplicationAdapter {
     @Override
     public void create() {
         Engine.spawnEntity(TestEntity.class);
+        Engine.spawnEntity(Entity.class);
+        
     }
 
     @Override
