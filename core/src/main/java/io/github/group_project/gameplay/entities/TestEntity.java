@@ -34,5 +34,14 @@ public class TestEntity extends Entity {
         {
             position.add(0, -1);
         }
+        if (IsCollidingWithEntityType(""))
+        {
+            System.out.println("I just collided!");
+        }
+        else
+        {
+             System.out.println("Awww, no collision.");
+        }
+        super.Update();
     }
 }
