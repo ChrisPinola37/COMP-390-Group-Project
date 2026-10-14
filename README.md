@@ -7,6 +7,8 @@ Install the Gradle for Java extension
 Install the Extension Pack for Java extension
 In VS Code, click File -> Open Folder -> then open the project folder (the one with the README)
 
+Game code is located in core/src
+
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
 
 This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.

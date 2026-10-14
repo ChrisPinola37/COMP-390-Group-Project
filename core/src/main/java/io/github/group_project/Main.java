@@ -5,28 +5,38 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import io.github.group_project.engine.Engine;
+import io.github.group_project.engine.entity.Entity;
+import io.github.group_project.gameplay.entities.TestEntity;
+
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
-    private SpriteBatch batch;
-    private Texture image;
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        image = new Texture("libgdx.png");
+        Engine.spawnEntity(TestEntity.class);
     }
 
     @Override
     public void render() {
+        //Loop through every entity and update its logic
+        for (int i = 0; i < Engine.entities.size(); i++)
+        {
+            Engine.entities.get(i).Update();
+        }
+
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-        batch.begin();
-        batch.draw(image, 140, 210);
-        batch.end();
+        Engine.spriteBatch.begin();
+        //Loop through every entity and run their draw logic
+        for (int i = 0; i < Engine.entities.size(); i++)
+        {
+            Engine.entities.get(i).Draw();
+        }
+        Engine.spriteBatch.end();
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
-        image.dispose();
+        Engine.spriteBatch.dispose();
     }
 }
