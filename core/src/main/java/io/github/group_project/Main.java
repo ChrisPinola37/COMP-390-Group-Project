@@ -14,9 +14,11 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void create() {
-        Engine.spawnEntity(TestEntity.class);
-        Engine.spawnEntity(Entity.class);
-        
+        Entity martyr = Engine.spawnEntity(TestEntity.class,250,130);
+        Engine.spawnEntity(Entity.class,20,50);
+        Engine.spawnEntity(Entity.class,20,50);
+        Engine.destroyEntity(martyr);
+        Engine.spawnEntity(Entity.class,20,50);
     }
 
     @Override
@@ -24,6 +26,7 @@ public class Main extends ApplicationAdapter {
         //Loop through every entity and update its logic
         for (int i = 0; i < Engine.entities.size(); i++)
         {
+            System.out.println(Engine.entities.get(i).id);
             Engine.entities.get(i).Update();
         }
 
