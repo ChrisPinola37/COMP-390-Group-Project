@@ -32,6 +32,9 @@ public class Entity {
     {
         this.destroyed = true;
     }
+    public Vector2 position = new Vector2(); //A vector containing the entity's x and y position
+
+    private List<Entity> colliding = new ArrayList<Entity>(); //If a collision check is done, all colliding entities will be stored here
 
     public Entity()
     {
