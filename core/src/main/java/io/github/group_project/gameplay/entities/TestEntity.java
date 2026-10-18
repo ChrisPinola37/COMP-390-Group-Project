@@ -20,18 +20,22 @@ public class TestEntity extends Entity {
     {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
         {
+            SetSprite("right.png");
             position.add(1, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
         {
+            SetSprite("left.png");
             position.add(-1, 0);
         }
          if (Gdx.input.isKeyPressed(Input.Keys.UP))
         {
+            SetSprite("up.png");
             position.add(0, 1);
         }
          if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
         {
+            SetSprite("down.png");
             position.add(0, -1);
         }
         if (IsCollidingWithEntityType(""))
