@@ -1,6 +1,8 @@
 package io.github.group_project;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -19,6 +21,9 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void create() {
+        Sound background = Gdx.audio.newSound(Gdx.files.internal("background_music.mp3"));
+        background.play(0.1f);
+
         levelOneLayout();
         Engine.spawnEntity(TestGoalClosed.class, 110, 80);
         Engine.spawnEntity(TestEntity.class, 112, 128);
