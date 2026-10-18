@@ -1,6 +1,8 @@
 package io.github.group_project;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -25,7 +27,10 @@ public class Main extends ApplicationAdapter {
         Engine.spawnEntity(TestKey.class, 480, 352);
 
     }
-
+    public void restartGame() {
+    Engine.entities.clear();
+    create();
+}
     public static void levelOneLayout() //Block layout for test level
     {
         Engine.spawnEntity(TestBlock.class, 0, 0);
@@ -76,6 +81,9 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void render() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+    restartGame();
+}
         //Loop through every entity and update its logic
         for (int i = 0; i < Engine.entities.size(); i++)
         {
