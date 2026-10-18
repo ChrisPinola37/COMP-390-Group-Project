@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
@@ -14,11 +16,22 @@ public class Entity {
     public String name = ""; //String used to identify a subclass
 
     public Texture sprite; //Its current sprite
+    
+    public boolean destroyed = false; //Whether the entity is to be destroyed on the next cleanup cycle
 
     public Vector2 position = new Vector2(); //A vector containing the entity's x and y position
 
     private List<Entity> colliding = new ArrayList<Entity>(); //If a collision check is done, all colliding entities will be stored here
 
+    public String getName() //Used to compare queryEntity with entityName for unique entity collision
+    { 
+        return this.name;
+    }
+
+    public void destroy()
+    {
+        this.destroyed = true;
+    }
     public Entity()
     {
        SetSprite("libgdx.png");
@@ -50,8 +63,10 @@ public class Entity {
             }
             if (doEntitiesCollide(queryEntity))
             {
+                if (queryEntity.getName().equals(entityName)) {
                 colliding.add(queryEntity);
                 collided = true;
+                }
             }
         }
         
