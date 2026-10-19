@@ -13,8 +13,6 @@ import io.github.group_project.engine.Engine;
 public class Entity {
     public String name = ""; //String used to identify a subclass
 
-    public int id = -1; //How the entity is found in the 
-
     public Texture sprite; //Its current sprite
 
     public Vector2 position = new Vector2(); //A vector containing the entity's x and y position
@@ -25,13 +23,6 @@ public class Entity {
     {
        SetSprite("libgdx.png");
     }
-
-    public void Setup(int x, int y, int id)
-    {
-        this.position.set(x, y);
-        this.id = id;
-    }
-
     public void Update() //Runs every frame
     {
         colliding.clear();
