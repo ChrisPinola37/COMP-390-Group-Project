@@ -17,11 +17,18 @@ public class Engine {
     {
     }
 
-    public static <T> T spawnEntity(Class<T> entity) //Creates an entity and adds them to the list of active entities
+    public static <T> T spawnEntity(Class<T> entity, float x, float y) //Creates an entity and adds them to the list of active entities
     {
         try {
             T newEntity = entity.getDeclaredConstructor().newInstance();
             entities.add((Entity)newEntity);
+
+            // Used to set entity position upon creation
+            if (newEntity instanceof Entity) {
+            Entity entityPos = (Entity) newEntity;
+            entityPos.position.set(x, y);
+    }
+            
             return newEntity;
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("No parameterless constructor found for " + entity.getName(), e);
@@ -29,5 +36,10 @@ public class Engine {
             throw new RuntimeException("Failed to instantiate " + entity.getName(), e);
         }
 
+    }
+
+    public static void clean() //Cleans up and removes all entities that are marked as destroyed
+    {
+        entities.removeIf(entity -> entity.destroyed);
     }
 }

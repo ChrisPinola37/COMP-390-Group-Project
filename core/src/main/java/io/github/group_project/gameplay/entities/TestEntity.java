@@ -11,37 +11,95 @@ public class TestEntity extends Entity {
     public TestEntity()
     {
         super();
-        name = "Also A Test";
-        SetSprite("freddy_yeah.png");
+        name = "Player";
+        SetSprite("player_left_0.png");
     }
+
+    float walkTimer;
+    String walkDir = "right";
 
     @Override 
     public void Update()
     {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
+            walkTimer = 0;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
+            walkTimer = 0;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
+            walkTimer = 0;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
+            walkTimer = 0;
+        if (walkDir == "right")
+            SetSprite("player_right_0.png");
+        if (walkDir == "left")
+            SetSprite("player_left_0.png");
+        walkTimer += 0.1;
+        if (walkTimer > 2)
+            walkTimer = 0;
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
         {
-            position.add(1, 0);
+            position.add(2, 0);
+            if (IsCollidingWithEntityType("Block"))
+                position.add(-2, 0);
+            if (walkTimer <= 1)
+                SetSprite("player_right_1.png");
+            else
+                SetSprite("player_right_0.png");
+            walkDir = "right";
+
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
         {
-            position.add(-1, 0);
+            position.add(-2, 0);
+            if (IsCollidingWithEntityType("Block"))
+                position.add(2, 0);
+            if (walkTimer <= 1)
+                SetSprite("player_left_1.png");
+            else
+                SetSprite("player_left_0.png");
+            walkDir = "left";
         }
-         if (Gdx.input.isKeyPressed(Input.Keys.UP))
+        if (Gdx.input.isKeyPressed(Input.Keys.UP))
         {
-            position.add(0, 1);
+            position.add(0, 2);
+            if (IsCollidingWithEntityType("Block"))
+                position.add(0, -2);
+            if (walkDir == "left")
+            {
+                if (walkTimer <= 1)
+                    SetSprite("player_left_1.png");
+                else
+                    SetSprite("player_left_0.png");
+            }
+            if (walkDir == "right")
+            {
+                if (walkTimer <= 1)
+                    SetSprite("player_right_1.png");
+                else
+                    SetSprite("player_right_0.png");
+            }
         }
-         if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
         {
-            position.add(0, -1);
+            position.add(0, -2);
+            if (IsCollidingWithEntityType("Block"))
+                position.add(0, 2);
+            if (walkDir == "left")
+            {
+                if (walkTimer <= 1)
+                    SetSprite("player_left_1.png");
+                else
+                    SetSprite("player_left_0.png");
+            }
+            if (walkDir == "right")
+            {
+                if (walkTimer <= 1)
+                    SetSprite("player_right_1.png");
+                else
+                    SetSprite("player_right_0.png");
+            }
         }
-        if (IsCollidingWithEntityType(""))
-        {
-            System.out.println("I just collided!");
-        }
-        else
-        {
-             System.out.println("Awww, no collision.");
-        }
+        
         super.Update();
     }
 }
