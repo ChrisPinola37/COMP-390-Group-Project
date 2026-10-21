@@ -39,7 +39,7 @@ public class TestEntity extends Entity {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
         {
             position.add(2, 0);
-            if (IsCollidingWithEntityType("Block"))
+            if (IsCollidingWithEntityType("Maze Wall"))
                 position.add(-2, 0);
             if (walkTimer <= 1)
                 SetSprite("player_right_1.png");

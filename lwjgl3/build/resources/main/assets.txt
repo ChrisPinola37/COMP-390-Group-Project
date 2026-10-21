@@ -15,4 +15,6 @@ star_on.png
 test_block.png
 test_floor.png
 up.png
+wall_horizontal.png
+wall_vertical.png
 win_demo.png

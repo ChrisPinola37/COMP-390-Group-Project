@@ -16,6 +16,7 @@ import io.github.group_project.gameplay.entities.TestBlock;
 import io.github.group_project.gameplay.entities.TestGoalClosed;
 import io.github.group_project.gameplay.entities.TestGoalOpen;
 import io.github.group_project.gameplay.entities.TestVictory;
+import io.github.group_project.gameplay.MazeGenerator;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
@@ -25,10 +26,11 @@ public class Main extends ApplicationAdapter {
         Sound background = Gdx.audio.newSound(Gdx.files.internal("background_music.mp3"));
         background.play(0.1f);
 
-        levelOneLayout();
         Engine.spawnEntity(TestGoalClosed.class, 110, 80);
-        Engine.spawnEntity(TestEntity.class, 112, 128);
+        
         Engine.spawnEntity(TestKey.class, 480, 352);
+
+        MazeGenerator.generateMaze();
 
     }
     public void restartGame() {

@@ -3,6 +3,7 @@ package io.github.group_project.engine;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -12,6 +13,8 @@ import io.github.group_project.engine.entity.Entity;
 public class Engine {
     public static List<Entity> entities = new ArrayList<Entity>(); //All active entities
     public static SpriteBatch spriteBatch = new SpriteBatch(); //Rendering thing
+
+    public static Random random = new Random();
 
     public Engine()
     {
