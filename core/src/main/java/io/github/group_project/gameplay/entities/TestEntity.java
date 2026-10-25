@@ -51,7 +51,7 @@ public class TestEntity extends Entity {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
         {
             position.add(-2, 0);
-            if (IsCollidingWithEntityType("Block"))
+            if (IsCollidingWithEntityType("Maze Wall"))
                 position.add(2, 0);
             if (walkTimer <= 1)
                 SetSprite("player_left_1.png");
@@ -62,7 +62,7 @@ public class TestEntity extends Entity {
         if (Gdx.input.isKeyPressed(Input.Keys.UP))
         {
             position.add(0, 2);
-            if (IsCollidingWithEntityType("Block"))
+            if (IsCollidingWithEntityType("Maze Wall"))
                 position.add(0, -2);
             if (walkDir == "left")
             {
@@ -82,7 +82,7 @@ public class TestEntity extends Entity {
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
         {
             position.add(0, -2);
-            if (IsCollidingWithEntityType("Block"))
+            if (IsCollidingWithEntityType("Maze Wall"))
                 position.add(0, 2);
             if (walkDir == "left")
             {

@@ -10,6 +10,7 @@ player_left_1.png
 player_right_0.png
 player_right_1.png
 right.png
+square.png
 star_off.png
 star_on.png
 test_block.png
