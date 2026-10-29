@@ -7,22 +7,18 @@ import com.badlogic.gdx.math.Vector2;
 import io.github.group_project.engine.Engine;
 import io.github.group_project.engine.entity.Entity;
 
-public class TestGoalClosed extends Entity {
+public class Victory extends Entity {
 
-    public TestGoalClosed()
+    public Victory()
     {
         super();
-        name = "Goal Closed";
-        SetSprite("star_off.png");
+        name = "Victory Demo";
+        SetSprite("win_demo.png");
     }
 
     @Override 
     public void Update()
     {
-        if (IsCollidingWithEntityType("Goal Open"))
-        {
-            destroyed = true;
-        }
         super.Update();
     }
 }

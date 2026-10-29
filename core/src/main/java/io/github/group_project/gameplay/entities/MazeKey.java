@@ -7,10 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.github.group_project.engine.Engine;
 import io.github.group_project.engine.entity.Entity;
+import io.github.group_project.gameplay.entities.MazeGoal;
 
-public class TestKey extends Entity {
+public class MazeKey extends Entity {
 
-    public TestKey()
+    public MazeKey()
     {
         super();
         name = "Key";
@@ -26,8 +27,12 @@ public class TestKey extends Entity {
             pickup.play(0.1f);
         
 
-
-            Engine.spawnEntity(TestGoalOpen.class, 110, 80);
+            int goalID = Engine.getFirstEntityIDOfType("Goal");
+            if (goalID > -1)
+            {
+                MazeGoal goalEntity = (MazeGoal) Engine.entities.get(goalID);
+                goalEntity.Open();
+            }
             destroyed = true;
             
         }

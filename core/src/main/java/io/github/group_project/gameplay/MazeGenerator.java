@@ -1,5 +1,10 @@
 package io.github.group_project.gameplay;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +13,10 @@ import java.util.Deque;
 import com.badlogic.gdx.Gdx;
 
 import io.github.group_project.engine.Engine;
+import io.github.group_project.gameplay.entities.MazeGoal;
+import io.github.group_project.gameplay.entities.MazeKey;
+import io.github.group_project.gameplay.entities.MazePlayer;
 import io.github.group_project.gameplay.entities.MazeWall;
-import io.github.group_project.gameplay.entities.TestEntity;
 
 
 public class MazeGenerator { //Handles the logic for generating a level's layout, along with saving and loading levels from a file
@@ -23,11 +30,15 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
 
     static List<List<Cell>> allCells = new ArrayList<List<Cell>>();
 
-    public static void generateMaze()
+    public static void generateMaze(String filePath)
     {
+        allCells.clear();
         //Which cell the player starts on
         int startX = 0;
-        int startY = 3;
+        int startY = Engine.random.nextInt(rows);
+
+        int keyX = columns-1;
+        int keyY = Engine.random.nextInt(rows);
 
         for (int y = 0; y < rows; y++) //Create a grid of cells
         {
@@ -35,7 +46,6 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
             for (int x = 0; x < columns; x++)
             {
                 allCells.get(y).add(new Cell(x, y));
-                //System.out.println("Adding cell: " + String.valueOf(x) + "," + String.valueOf(y));
             }
         }
 
@@ -126,7 +136,7 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
             currentCell = nextCell;
             finishedCells++;
         }
-        //Logic is finished. Now generate the walls
+        //Logic is finished. Now create the list of walls
 
         List<Boolean> walls = new ArrayList<Boolean>();
         
@@ -140,26 +150,79 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
                 walls.add(cell.walls.right);
                 walls.add(cell.walls.top);
                 walls.add(cell.walls.bottom);
+                //A cell consists of 4 bits corresponding to the left, right, top and bottom wall
+                //If the bit is 1, then there is a wall. If it's 0, there is no wall.
             }
         }
 
-        loadMaze(walls, startX, startY);
+        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream("levels/" + filePath))) {
+            //Header
+            dos.writeInt(startX); //Player Starting X
+            dos.writeInt(startY); //Player Starting Y
+            dos.writeInt(keyX); //Key X Coordinate
+            dos.writeInt(keyY); //Key Y Coordinate
+            dos.writeInt(walls.size()); //Amount of walls
+            //End of Header
+
+            //Save the walls
+            for (int i = 0; i < walls.size(); i++)
+            {
+                dos.writeBoolean(walls.get(i)); 
+            }
+            System.out.println("Level saved to " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        loadMaze(filePath);
     }
 
-    public static void loadMaze(List<Boolean> walls,int startX, int startY)
+    public static void loadMaze(String filePath)
+    {
+        List<Boolean> walls = new ArrayList<Boolean>();
+        int startX = 0;
+        int startY = 0;
+        int keyX = 0;
+        int keyY = 0;
+        try (DataInputStream dis = new DataInputStream(new FileInputStream("levels/" + filePath)))
+        {
+            System.out.println("Level loaded successfully");
+            //Read the header
+            startX = dis.readInt();
+            startY = dis.readInt();
+            keyX = dis.readInt();
+            keyY = dis.readInt();
+            System.out.println("Start coordinates: " + startX + "," + startY);
+            System.out.println("Key coordinates: " + keyX + "," + keyY);
+            int wallAmnt = dis.readInt();
+
+            //Loop reading the walls
+            for (int i = 0; i < wallAmnt; i++)
+            {
+                walls.add(dis.readBoolean());
+            }
+
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        loadMaze(walls, startX,startY,keyX,keyY);
+    }
+
+    public static void loadMaze(List<Boolean> walls,int startX, int startY, int keyX, int keyY)
     {
         for (int i = 0; i < walls.size(); i++)
         {
             int wallType = Math.floorMod(i, 4);
+
             boolean isWall = walls.get(i);
 
             int cellNumber = (int)Math.floor(i/4); //Every 4 bits = 1 cell in the maze
 
             int cellX = Math.floorMod(cellNumber, columns);
-            int cellY = (int)Math.floor(cellNumber/rows);
+            int cellY = (int)Math.floor(cellNumber/columns);
 
-            System.out.println(isWall);
-            if (isWall)
+            if (isWall == true)
             {
                 switch (wallType)
                 {
@@ -167,19 +230,22 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
                         Engine.spawnEntity(MazeWall.class, (cellX* gridSize), (cellY * gridSize)).setup(false);
                     break;
                     case 1:
-                        Engine.spawnEntity(MazeWall.class, (cellX * gridSize) + 60, (cellY * gridSize)).setup(false);
+                        Engine.spawnEntity(MazeWall.class, (cellX * gridSize) + 62, (cellY * gridSize)).setup(false);
                     break;
                     case 2:
                         Engine.spawnEntity(MazeWall.class, (cellX * gridSize), (cellY * gridSize)).setup(true);
                     break;
                     case 3:
-                        Engine.spawnEntity(MazeWall.class, (cellX * gridSize), (cellY * gridSize) + 60).setup(true);
+                        Engine.spawnEntity(MazeWall.class, (cellX * gridSize), (cellY * gridSize) + 62).setup(true);
                     break;
                 }
             }
         }
          //Spawn the player
-        Engine.spawnEntity(TestEntity.class, (startX*gridSize) + 16, (startY*gridSize) + 32);
+        Engine.spawnEntity(MazePlayer.class, (startX*gridSize) + 16, (startY*gridSize));
+        Engine.spawnEntity(MazeGoal.class, (startX*gridSize) + 16, (startY*gridSize) + 32);
+        
+        Engine.spawnEntity(MazeKey.class, keyX * gridSize, keyY * gridSize);
     }
 }
 
