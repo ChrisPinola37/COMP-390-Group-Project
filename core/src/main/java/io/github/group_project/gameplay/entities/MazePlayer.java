@@ -1,18 +1,21 @@
 package io.github.group_project.gameplay.entities;
 
+import java.util.Vector;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 
 import io.github.group_project.engine.entity.Entity;
 
-public class TestEntity extends Entity {
+public class MazePlayer extends Entity {
 
-    public TestEntity()
+    public MazePlayer()
     {
         super();
         name = "Player";
         SetSprite("player_left_0.png");
+        SetCollision(32, 32);
     }
 
     float walkTimer;
@@ -36,11 +39,11 @@ public class TestEntity extends Entity {
         walkTimer += 0.1;
         if (walkTimer > 2)
             walkTimer = 0;
+
+        Vector2 movement = new Vector2();
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
         {
-            position.add(2, 0);
-            if (IsCollidingWithEntityType("Block"))
-                position.add(-2, 0);
+            movement.add(2, 0);
             if (walkTimer <= 1)
                 SetSprite("player_right_1.png");
             else
@@ -50,9 +53,7 @@ public class TestEntity extends Entity {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
         {
-            position.add(-2, 0);
-            if (IsCollidingWithEntityType("Block"))
-                position.add(2, 0);
+            movement.add(-2, 0);
             if (walkTimer <= 1)
                 SetSprite("player_left_1.png");
             else
@@ -61,9 +62,7 @@ public class TestEntity extends Entity {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP))
         {
-            position.add(0, 2);
-            if (IsCollidingWithEntityType("Block"))
-                position.add(0, -2);
+            movement.add(0, 2);
             if (walkDir == "left")
             {
                 if (walkTimer <= 1)
@@ -81,9 +80,7 @@ public class TestEntity extends Entity {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
         {
-            position.add(0, -2);
-            if (IsCollidingWithEntityType("Block"))
-                position.add(0, 2);
+            movement.add(0, -2);
             if (walkDir == "left")
             {
                 if (walkTimer <= 1)
@@ -98,6 +95,11 @@ public class TestEntity extends Entity {
                 else
                     SetSprite("player_right_0.png");
             }
+        }
+
+        if (isCollidingWithEntityTypeAtPoint(movement.x,movement.y,"Maze Wall") == false)
+        {
+            position.add(movement.x, movement.y);
         }
         
         super.Update();
