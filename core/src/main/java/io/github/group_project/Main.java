@@ -30,7 +30,7 @@ public class Main extends ApplicationAdapter {
         MazeGenerator.generateMaze("level5.bin");
         */
 
-        LevelManager.startLevel(0);
+        LevelManager.startLevel(1);
     }
 
     public void restartGame() {

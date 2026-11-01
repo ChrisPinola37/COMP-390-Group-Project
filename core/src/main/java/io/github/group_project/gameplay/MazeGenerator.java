@@ -17,6 +17,7 @@ import io.github.group_project.gameplay.entities.MazeGoal;
 import io.github.group_project.gameplay.entities.MazeKey;
 import io.github.group_project.gameplay.entities.MazePlayer;
 import io.github.group_project.gameplay.entities.MazeWall;
+import io.github.group_project.gameplay.entities.MazeEnemy;
 
 
 public class MazeGenerator { //Handles the logic for generating a level's layout, along with saving and loading levels from a file
@@ -184,7 +185,7 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
         int startY = 0;
         int keyX = 0;
         int keyY = 0;
-        try (DataInputStream dis = new DataInputStream(new FileInputStream("levels/" + filePath)))
+        try (DataInputStream dis = new DataInputStream(new FileInputStream("assets/levels/" + filePath)))
         {
             System.out.println("Level loaded successfully");
             //Read the header
@@ -193,7 +194,7 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
             keyX = dis.readInt();
             keyY = dis.readInt();
             System.out.println("Start coordinates: " + startX + "," + startY);
-            System.out.println("Key coordinates: " + keyX + "," + keyY);
+            System.out.println("Key + enemy coordinates: " + keyX + "," + keyY);
             int wallAmnt = dis.readInt();
 
             //Loop reading the walls
@@ -227,16 +228,16 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
                 switch (wallType)
                 {
                     case 0:
-                        Engine.spawnEntity(MazeWall.class, (cellX* gridSize), (cellY * gridSize)).setup(false);
+                        Engine.spawnEntity(MazeWall.class, (cellX* gridSize), (cellY * gridSize)-2).setup(false);
                     break;
                     case 1:
-                        Engine.spawnEntity(MazeWall.class, (cellX * gridSize) + 62, (cellY * gridSize)).setup(false);
+                        Engine.spawnEntity(MazeWall.class, (cellX * gridSize) + 62, (cellY * gridSize)-2).setup(false);
                     break;
                     case 2:
-                        Engine.spawnEntity(MazeWall.class, (cellX * gridSize), (cellY * gridSize)).setup(true);
+                        Engine.spawnEntity(MazeWall.class, (cellX * gridSize)-2, (cellY * gridSize)).setup(true);
                     break;
                     case 3:
-                        Engine.spawnEntity(MazeWall.class, (cellX * gridSize), (cellY * gridSize) + 62).setup(true);
+                        Engine.spawnEntity(MazeWall.class, (cellX * gridSize)-2, (cellY * gridSize) + 62).setup(true);
                     break;
                 }
             }
@@ -246,6 +247,7 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
         Engine.spawnEntity(MazeGoal.class, (startX*gridSize) + 16, (startY*gridSize) + 32);
         
         Engine.spawnEntity(MazeKey.class, keyX * gridSize, keyY * gridSize);
+        Engine.spawnEntity(MazeEnemy.class, (keyX * gridSize) + 2, (keyY * gridSize) + 2);
     }
 }
 
