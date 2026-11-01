@@ -3,15 +3,24 @@ package io.github.group_project.engine;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import io.github.group_project.engine.entity.Entity;
 
 //The Engine class containts everything that will need to be saved globally
 public class Engine {
     public static List<Entity> entities = new ArrayList<Entity>(); //All active entities
-    public static SpriteBatch spriteBatch = new SpriteBatch(); //Rendering thing
+    public static SpriteBatch spriteBatch = new SpriteBatch(); //Rendering sprites
+    public static ShapeRenderer shapeRenderer = new ShapeRenderer(); //Rendering basic shapes
+
+    public static Boolean debug = false;
+    public static Boolean updateEntities = true;
+
+    public static Random random = new Random();
+
 
     public Engine()
     {
@@ -38,8 +47,31 @@ public class Engine {
 
     }
 
+    public static int getFirstEntityIDOfType(String entityName)
+    {
+        for (int i = 0; i < entities.size(); i++)
+        {
+            if (entities.get(i).name == entityName)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static void clean() //Cleans up and removes all entities that are marked as destroyed
     {
         entities.removeIf(entity -> entity.destroyed);
+    }
+
+    public static void destroyAllEntities()
+    {
+        for (int i = 0; i < entities.size(); i++)
+        {
+            Entity entity = entities.get(i);
+            entity.destroyed = true;
+        }
+        updateEntities = false;
+        clean();
     }
 }
