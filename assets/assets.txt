@@ -16,6 +16,7 @@ player_right_0.png
 player_right_1.png
 right.png
 square.png
+star.wav
 star_off.png
 star_on.png
 test_block.png
@@ -23,4 +24,5 @@ test_floor.png
 up.png
 wall_horizontal.png
 wall_vertical.png
+win.mp3
 win_demo.png

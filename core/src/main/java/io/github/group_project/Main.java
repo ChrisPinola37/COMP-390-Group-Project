@@ -12,15 +12,21 @@ import io.github.group_project.engine.Engine;
 import io.github.group_project.engine.entity.Entity;
 
 import io.github.group_project.gameplay.MazeGenerator;
+import io.github.group_project.gameplay.AudioManager;
 import io.github.group_project.gameplay.LevelManager;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
+    private AudioManager audioManager;
 
     @Override
     public void create() {
-        Sound background = Gdx.audio.newSound(Gdx.files.internal("background_music.mp3"));
-        background.play(0.1f);
+       // Sound background = Gdx.audio.newSound(Gdx.files.internal("background_music.mp3"));
+        //background.play(0.1f);
+        //Background music player
+        AudioManager.instance = new AudioManager();
+        audioManager = new AudioManager();
+        AudioManager.instance.playMusic(0.085f);
 
         /* 
         MazeGenerator.generateMaze("level1.bin");
@@ -32,10 +38,16 @@ public class Main extends ApplicationAdapter {
 
         LevelManager.startLevel(0);
     }
+    
+    public void Update(){
+        audioManager.playSound("pickup", 0.1f);
+    }
 
     public void restartGame() {
         Engine.entities.clear();
         create();
+        //Prevents audio from looping when restarting game
+        AudioManager.instance.stopMusic();
     }
 
     @Override
@@ -73,5 +85,7 @@ public class Main extends ApplicationAdapter {
     @Override
     public void dispose() {
         Engine.spriteBatch.dispose();
+
+        audioManager.dispose();
     }
 }
