@@ -18,12 +18,24 @@ public class MazePlayer extends Entity {
         SetCollision(32, 32);
     }
 
+    boolean defeated = false;
     float walkTimer;
     String walkDir = "right";
+
+    public void Defeated()
+    {
+        defeated = true;
+        if (walkDir == "right")
+            SetSprite("defeat_right.png");
+        else
+            SetSprite("defeat_left.png");
+    }
 
     @Override 
     public void Update()
     {
+        if (defeated == false) 
+        {
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
             walkTimer = 0;
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
@@ -97,11 +109,15 @@ public class MazePlayer extends Entity {
             }
         }
 
-        if (isCollidingWithEntityTypeAtPoint(movement.x,movement.y,"Maze Wall") == false)
+        if (isCollidingWithEntityTypeAtPoint(movement.x,0,"Maze Wall") == false)
         {
-            position.add(movement.x, movement.y);
+            position.add(movement.x, 0);
         }
-        
+        if (isCollidingWithEntityTypeAtPoint(0,movement.y,"Maze Wall") == false)
+        {
+            position.add(0, movement.y);
+        }
+    }
         super.Update();
     }
 }
