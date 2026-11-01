@@ -15,9 +15,9 @@ public class Victory extends Entity {
         super();
         name = "Victory Demo";
         SetSprite("win_demo.png");
-        AudioManager.instance.playSound("win", 0.085f);
         AudioManager.instance.stopMusic();
-
+        AudioManager.instance.playSound("win", 0.085f);
+        
     }
     
 

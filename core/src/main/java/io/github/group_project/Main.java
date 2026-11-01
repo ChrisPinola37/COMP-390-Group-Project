@@ -17,7 +17,7 @@ import io.github.group_project.gameplay.LevelManager;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
-    private AudioManager audioManager;
+    
 
     @Override
     public void create() {
@@ -25,7 +25,6 @@ public class Main extends ApplicationAdapter {
         //background.play(0.1f);
         //Background music player
         AudioManager.instance = new AudioManager();
-        audioManager = new AudioManager();
         AudioManager.instance.playMusic(0.085f);
 
         /* 
@@ -38,16 +37,12 @@ public class Main extends ApplicationAdapter {
 
         LevelManager.startLevel(0);
     }
-    
-    public void Update(){
-        audioManager.playSound("pickup", 0.1f);
-    }
 
     public void restartGame() {
-        Engine.entities.clear();
-        create();
         //Prevents audio from looping when restarting game
         AudioManager.instance.stopMusic();
+        Engine.entities.clear();
+        create();        
     }
 
     @Override
@@ -86,6 +81,6 @@ public class Main extends ApplicationAdapter {
     public void dispose() {
         Engine.spriteBatch.dispose();
 
-        audioManager.dispose();
+        AudioManager.instance.dispose();
     }
 }
