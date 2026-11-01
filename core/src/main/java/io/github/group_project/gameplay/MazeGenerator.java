@@ -185,7 +185,7 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
         int startY = 0;
         int keyX = 0;
         int keyY = 0;
-        try (DataInputStream dis = new DataInputStream(new FileInputStream("assets/levels/" + filePath)))
+        try (DataInputStream dis = new DataInputStream(new FileInputStream("levels/" + filePath)))
         {
             System.out.println("Level loaded successfully");
             //Read the header
