@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.github.group_project.engine.Engine;
 import io.github.group_project.engine.entity.Entity;
+import io.github.group_project.gameplay.AudioManager;
+
 
 public class Defeat extends Entity {
 
@@ -14,6 +16,8 @@ public class Defeat extends Entity {
         super();
         name = "Defeat Demo";
         SetSprite("lose_demo.png");
+        AudioManager.instance.stopMusic();
+        AudioManager.instance.playSound("lose", 0.1f);
     }
 
     @Override 
