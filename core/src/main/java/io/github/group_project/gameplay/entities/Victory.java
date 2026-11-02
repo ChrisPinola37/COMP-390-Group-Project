@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.github.group_project.engine.Engine;
 import io.github.group_project.engine.entity.Entity;
+import io.github.group_project.gameplay.Leaderboard;
 
 public class Victory extends Entity {
 
@@ -14,6 +15,7 @@ public class Victory extends Entity {
         super();
         name = "Victory Demo";
         SetSprite("win_demo.png");
+        Leaderboard.saveScore(Leaderboard.getPlayerName(), Leaderboard.getCurrentScore());
     }
 
     @Override 
