@@ -13,6 +13,7 @@ import io.github.group_project.engine.Engine;
 import io.github.group_project.engine.entity.Entity;
 
 import io.github.group_project.gameplay.MazeGenerator;
+import io.github.group_project.gameplay.AudioManager;
 import io.github.group_project.gameplay.LevelManager;
 import io.github.group_project.gameplay.Leaderboard;
 import com.badlogic.gdx.Input.TextInputListener;
@@ -27,6 +28,7 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void create() {
+
         if (scoreFont == null) {
     scoreFont = new BitmapFont();
 
@@ -57,8 +59,13 @@ public class Main extends ApplicationAdapter {
 });
     
 
-        Sound background = Gdx.audio.newSound(Gdx.files.internal("background_music.mp3"));
-        background.play(0.1f);
+      
+
+        //Sound background = Gdx.audio.newSound(Gdx.files.internal("background_music.mp3"));
+        //background.play(0.1f);
+        AudioManager.instance = new AudioManager();
+        AudioManager.instance.playMusic(0.085f);
+      
 
         /* 
         MazeGenerator.generateMaze("level1.bin");
@@ -70,12 +77,15 @@ public class Main extends ApplicationAdapter {
 
         LevelManager.startLevel(1);
     }
-
+ //stops music from looping when restarting
     public void restartGame() {
     Leaderboard.resetScore();
+    AudioManager.instance.stopMusic();
     Engine.entities.clear();
     create();
 }
+
+     
 
     @Override
     public void render() {
@@ -161,8 +171,13 @@ if (showLeaderboard) {
     @Override
     public void dispose() {
         Engine.spriteBatch.dispose();
+
         if (scoreFont != null) {
     scoreFont.dispose();
 }
+
+
+        AudioManager.instance.dispose();
+
     }
 }

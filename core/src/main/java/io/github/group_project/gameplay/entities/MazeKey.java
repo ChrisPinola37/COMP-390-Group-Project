@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.github.group_project.engine.Engine;
 import io.github.group_project.engine.entity.Entity;
+import io.github.group_project.gameplay.AudioManager;
 import io.github.group_project.gameplay.entities.MazeGoal;
 import io.github.group_project.gameplay.Leaderboard;
 
@@ -25,8 +26,11 @@ public class MazeKey extends Entity {
         if (IsCollidingWithEntityType("Player"))
         {
             Leaderboard.addPoints(100);
-            Sound pickup = Gdx.audio.newSound(Gdx.files.internal("explosion.mp3"));
-            pickup.play(0.1f);
+           
+            //Sound pickup = Gdx.audio.newSound(Gdx.files.internal("explosion.mp3"));
+            //pickup.play(0.1f);
+            AudioManager.instance.playSound("pickup", 0.1f);
+
         
 
             int goalID = Engine.getFirstEntityIDOfType("Goal");

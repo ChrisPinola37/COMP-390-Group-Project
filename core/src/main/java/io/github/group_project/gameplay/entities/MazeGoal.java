@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.github.group_project.engine.Engine;
 import io.github.group_project.engine.entity.Entity;
+import io.github.group_project.gameplay.AudioManager;
 import io.github.group_project.gameplay.LevelManager;
 
 public class MazeGoal extends Entity {
@@ -32,6 +33,7 @@ public class MazeGoal extends Entity {
         {
             if (IsCollidingWithEntityType("Player"))
             {
+                AudioManager.instance.playSound("star", 0.2f);
                 LevelManager.advanceLevel();
                 destroyed = true;
                 
