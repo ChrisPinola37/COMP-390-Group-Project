@@ -137,6 +137,74 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
             currentCell = nextCell;
             finishedCells++;
         }
+
+        for (int i = 0; i < 35; i++) //Open up the maze a little more
+        {
+            int cellX = 1 + Engine.random.nextInt(columns-2);
+            int cellY = 1 + Engine.random.nextInt(rows-2);
+
+            currentCell = allCells.get(cellY).get(cellX);
+             List<String> wallRemoveDirs = new ArrayList<String>();
+            List<Cell> queryCells = new ArrayList<Cell>();
+            if (currentCell.x < columns-1 && currentCell.walls.left == true)
+            {
+                Cell potentialCell = allCells.get(currentCell.y).get(currentCell.x + 1);
+                queryCells.add(potentialCell);
+                wallRemoveDirs.add("Right");
+                
+            }
+            if (currentCell.x > 0 && currentCell.walls.right == true)
+            {
+                Cell potentialCell = allCells.get(currentCell.y).get(currentCell.x - 1);
+                queryCells.add(potentialCell);
+                wallRemoveDirs.add("Left");
+                
+            }
+            if (currentCell.y < rows-1 && currentCell.walls.top == true)
+            {
+                Cell potentialCell = allCells.get(currentCell.y+1).get(currentCell.x);
+                queryCells.add(potentialCell);
+                wallRemoveDirs.add("Down");
+                
+            }
+            if (currentCell.y > 0 && currentCell.walls.bottom == true)
+            {
+                Cell potentialCell = allCells.get(currentCell.y - 1).get(currentCell.x);
+                queryCells.add(potentialCell);
+                wallRemoveDirs.add("Up");
+                
+            }
+
+            if (queryCells.size() == 0)
+            {
+                continue;
+            }
+           
+            int nextCellIndex = Engine.random.nextInt(queryCells.size());
+            Cell nextCell = queryCells.get(nextCellIndex);
+            
+            switch (wallRemoveDirs.get(nextCellIndex))
+            {
+                case "Right":
+                    currentCell.walls.right = false;
+                    nextCell.walls.left = false;
+                break;
+                case "Left":
+                    currentCell.walls.left = false;
+                    nextCell.walls.right = false;
+                break;
+                case "Down":
+                    currentCell.walls.bottom = false;
+                    nextCell.walls.top = false;
+                break;
+                case "Up":
+                    currentCell.walls.top = false;
+                    nextCell.walls.bottom = false;
+                break;
+            }
+
+        }
+
         //Logic is finished. Now create the list of walls
 
         List<Boolean> walls = new ArrayList<Boolean>();

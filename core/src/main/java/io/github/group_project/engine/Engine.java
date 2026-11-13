@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import io.github.group_project.database.Database;
 import io.github.group_project.engine.entity.Entity;
 
 //The Engine class containts everything that will need to be saved globally
@@ -21,9 +23,19 @@ public class Engine {
 
     public static Random random = new Random();
 
+    public static BitmapFont leaderboardFont = new BitmapFont();;
+
+    public static String textEntry = "";
+    public static Boolean typingEnabled = false;
+    public static Boolean typingEnded = false; 
+
+    public static Boolean paused = false;
+
+    public static Database db;
 
     public Engine()
     {
+        System.out.println("i can send emails!");
     }
 
     public static <T> T spawnEntity(Class<T> entity, float x, float y) //Creates an entity and adds them to the list of active entities
@@ -73,5 +85,12 @@ public class Engine {
         }
         updateEntities = false;
         clean();
+    }
+
+    public static void enableTyping()
+    {
+        typingEnabled = true;
+        textEntry = "";
+        typingEnded = false;
     }
 }

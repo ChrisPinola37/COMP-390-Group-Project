@@ -6,6 +6,7 @@ down.png
 enemy.png
 explosion.mp3
 freddy_yeah.png
+leaderboard.db
 left.png
 levels/level1.bin
 levels/level2.bin
