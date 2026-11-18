@@ -19,7 +19,7 @@ public class Victory extends Entity {
         name = "Victory Demo";
         SetSprite("win_demo.png");
 
-        LeaderboardManager.saveScore(LeaderboardManager.getPlayerName(), LeaderboardManager.getCurrentScore());
+        LeaderboardManager.saveScore();
 
         AudioManager.instance.stopMusic();
         AudioManager.instance.playSound("win", 0.085f);

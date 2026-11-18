@@ -5,10 +5,22 @@ dependencies {
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
 
   implementation "org.xerial:sqlite-jdbc:3.45.1.0" // Check for latest version
+  // Standard JUnit 5 dependencies
+  testImplementation(platform("org.junit:junit-bom:5.11.4"))
+  testImplementation("org.junit.jupiter:junit-jupiter")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+  // Optional: Needed if your tests call Gdx.* APIs or load assets
+  testImplementation("com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion")
+  testImplementation("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop")
 
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
   }
+}
+
+test {
+    useJUnitPlatform()
 }
 
 jar {

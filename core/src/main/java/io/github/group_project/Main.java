@@ -75,10 +75,10 @@ public class Main extends ApplicationAdapter {
 
         
         MazeGenerator.generateMaze("level1.bin");
-       // MazeGenerator.generateMaze("level2.bin");
-      //  MazeGenerator.generateMaze("level3.bin");
-     //   MazeGenerator.generateMaze("level4.bin");
-       // MazeGenerator.generateMaze("level5.bin");
+        MazeGenerator.generateMaze("level2.bin");
+        MazeGenerator.generateMaze("level3.bin");
+        MazeGenerator.generateMaze("level4.bin");
+        MazeGenerator.generateMaze("level5.bin");
         
 
         LevelManager.startLevel(1);

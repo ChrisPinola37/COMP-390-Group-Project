@@ -49,25 +49,19 @@ public class LeaderboardManager {
         prefs.clear();
         prefs.flush();
     }
-    public static void saveScore(String playerName, int score) {
-        Preferences prefs = Gdx.app.getPreferences(FILE_NAME);
-        int count = prefs.getInteger("count", 0);
+    public static void saveScore() {
 
-        prefs.putString("name_" + count, playerName);
-        prefs.putInteger("score_" + count, score);
-        prefs.putInteger("count", count + 1);
-        prefs.flush();
-
-        
-        /* 
-        String sql = "INSERT INTO player_score(player_id,score) VALUES (?,?)";
-        try (Connection c = Engine.db.getConnection(); PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, 0); ps.setInt(2, receiverId); ps.setInt(3, courseId); ps.setString(4, message);
+        System.out.println(playerID);
+        System.out.println(currentScore);
+        String sql = "INSERT INTO player_score(player_id,score,mode) VALUES (?,?,?)";
+        try (Connection c = Engine.db.getConnection(); PreparedStatement ps = c.prepareStatement(sql, Statement.SUCCESS_NO_INFO)) {
+            ps.setInt(1, playerID); ps.setInt(2, currentScore); ps.setString(3,"Normal");;
             ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) { if (keys.next()) return keys.getInt(1); }
-        }
-        throw new SQLException("Could not create study request.");
-        */
+        } 
+        catch (SQLException s)
+        {
+            System.err.println("Score could not be saved");
+        };
     }
 
     public static ArrayList<String> getScores() {

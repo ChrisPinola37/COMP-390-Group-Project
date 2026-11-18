@@ -55,17 +55,21 @@ public class PlayerNameManager extends Entity {
             try (Connection c = Engine.db.getConnection(); PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(2, playerName); ps.setString(3, playerName);
                 ps.executeUpdate();
-                playerID = ps.getGeneratedKeys().getInt(0);
+                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    playerID = generatedKeys.getInt(1);
+                    System.out.println("New entry ID: " + playerID);
+                }
+    }
             } 
             catch (SQLException s)
             {
-                System.err.println("database error");
+                System.err.println("Could not create player data");
             };
 
             destroyed = true;
 
             LeaderboardManager.setPlayerID(playerID);
-            Engine.spawnEntity(ScoreManager.class, 0, 0);
         }
     }
 

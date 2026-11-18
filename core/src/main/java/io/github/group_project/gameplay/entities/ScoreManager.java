@@ -1,5 +1,13 @@
 package io.github.group_project.gameplay.entities;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
@@ -11,6 +19,8 @@ public class ScoreManager extends Entity{
     private boolean visible = false;
     private int playerID = 0;
     private String playerName = "";
+
+    public List<String> scores = new ArrayList<String>();
     public ScoreManager()
     {
 
@@ -25,11 +35,15 @@ public class ScoreManager extends Entity{
     @Override 
     public void Update()
     {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
-            visible = !visible;
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.U)) {
-            LeaderboardManager.saveScore(playerName, playerID);
+        if (Engine.typingEnabled == false)
+        {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
+                enableLeaderboard();
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.U)) {
+                LeaderboardManager.addPoints(Engine.random.nextInt(500));
+                LeaderboardManager.saveScore();
+            }
         }
     }
 
@@ -46,8 +60,6 @@ public class ScoreManager extends Entity{
         {
              Engine.leaderboardFont.draw(Engine.spriteBatch, "LEADERBOARD", 50, 420);
 
-            java.util.ArrayList<String> scores = LeaderboardManager.getScores();
-
             if (scores.isEmpty()) {
                 Engine.leaderboardFont.draw(Engine.spriteBatch, "No scores saved yet", 50, 390);
             }
@@ -60,6 +72,32 @@ public class ScoreManager extends Entity{
                     390 - (i * 25)
                 );
             }
+        }
+    }
+
+
+    public void enableLeaderboard()
+    {
+        enableLeaderboard(!visible);
+    }
+    public void enableLeaderboard(Boolean toggle)
+    {
+        visible = toggle;
+        if (toggle == true)
+        {
+            String sql = "SELECT player_score.score, players.player_name\nFROM players\nJOIN player_score ON players.player_id = player_score.player_id\nORDER BY score DESC";
+           // String sql = "SELECT * FROM player_score\nORDER BY score DESC";
+            try (Connection c = Engine.db.getConnection(); PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next())
+                {
+                    scores.add(rs.getString("player_name")+ ": " + rs.getInt("score"));
+                }
+            } 
+            catch (SQLException s)
+            {
+                System.err.println(s.getNextException());
+            };
         }
     }
 }
