@@ -1,6 +1,7 @@
 package io.github.group_project.gameplay;
 
 import io.github.group_project.engine.Engine;
+import io.github.group_project.gameplay.entities.ScoreManager;
 import io.github.group_project.gameplay.entities.Victory;
 
 public class LevelManager {
@@ -11,6 +12,7 @@ public class LevelManager {
     {
         LevelManager.level = level;
         Engine.destroyAllEntities();
+        Engine.spawnEntity(ScoreManager.class, 0, 0);
         MazeGenerator.loadMaze(levelList[level]);
     }
 

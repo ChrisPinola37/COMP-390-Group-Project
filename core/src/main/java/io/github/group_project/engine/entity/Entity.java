@@ -19,8 +19,9 @@ public class Entity {
     public String name = ""; //String used to identify a subclass
 
     public Texture sprite; //Its current sprite
+    private boolean validSprite = false;
 
-    public Rectangle hitbox;
+    public Rectangle hitbox = new Rectangle(0,0,1,1);
     
     public boolean destroyed = false; //Whether the entity is to be destroyed on the next cleanup cycle
 
@@ -40,7 +41,6 @@ public class Entity {
     public Entity()
     {
        hitbox = new Rectangle();
-       SetSprite("libgdx.png");
     }
     public void Update() //Runs every frame
     {
@@ -48,9 +48,17 @@ public class Entity {
         hitbox.setPosition(position.x, position.y);
     }
 
+    private void DrawSelf()
+    {
+        if (validSprite)
+        {
+            Engine.spriteBatch.draw(sprite, position.x, position.y);
+        }
+    }
+
     public void Draw() //Draw entity's sprite to screen
     {
-        Engine.spriteBatch.draw(sprite, position.x, position.y);
+        DrawSelf();
         if (Engine.debug)
         {
             Engine.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -60,9 +68,15 @@ public class Entity {
         }
     }
 
+    public void DrawEnd()
+    {
+
+    }
+
     public void SetSprite(String spriteName) //Changes the sprite based on the string provided
     {
         sprite = new Texture(spriteName); //I don't think this is correct but it works.
+        validSprite = true;
         SetCollision(sprite.getWidth(), sprite.getHeight());
     }
 

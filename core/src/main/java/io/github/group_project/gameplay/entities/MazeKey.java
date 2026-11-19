@@ -9,7 +9,7 @@ import io.github.group_project.engine.Engine;
 import io.github.group_project.engine.entity.Entity;
 import io.github.group_project.gameplay.AudioManager;
 import io.github.group_project.gameplay.entities.MazeGoal;
-import io.github.group_project.gameplay.Leaderboard;
+import io.github.group_project.gameplay.LeaderboardManager;
 
 public class MazeKey extends Entity {
 
@@ -25,7 +25,7 @@ public class MazeKey extends Entity {
     {
         if (IsCollidingWithEntityType("Player"))
         {
-            Leaderboard.addPoints(100);
+            LeaderboardManager.addPoints(100);
            
             //Sound pickup = Gdx.audio.newSound(Gdx.files.internal("explosion.mp3"));
             //pickup.play(0.1f);
