@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import io.github.group_project.engine.entity.Entity;
@@ -15,12 +16,13 @@ public class MazePlayer extends Entity {
         super();
         name = "Player";
         SetSprite("player_left_0.png");
-        SetCollision(32, 32);
     }
 
     boolean defeated = false;
     float walkTimer;
     String walkDir = "right";
+    float moveSpeed;
+    float sprint = 1;
 
     public void Defeated()
     {
@@ -34,6 +36,20 @@ public class MazePlayer extends Entity {
     @Override 
     public void Update()
     {
+        if (Gdx.graphics.getDeltaTime() < 1) {
+            delta = Gdx.graphics.getDeltaTime();
+        }
+        moveSpeed = 120 * delta;
+        
+    if (hitbox == null) {
+        hitbox = new Rectangle(position.x+16, position.y, 32, 56);
+    } else {
+        hitbox.setSize(32, 56);
+        hitbox.setPosition(position.x+16, position.y);
+    }
+    
+    SetCollision(hitbox.width, hitbox.height);
+
         if (defeated == false) 
         {
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
@@ -44,18 +60,22 @@ public class MazePlayer extends Entity {
             walkTimer = 0;
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
             walkTimer = 0;
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))
+            sprint = (float)1.5;
+        else
+            sprint = 1;
         if (walkDir == "right")
             SetSprite("player_right_0.png");
         if (walkDir == "left")
             SetSprite("player_left_0.png");
-        walkTimer += 0.1;
+        walkTimer += (6 * delta) * sprint;
         if (walkTimer > 2)
             walkTimer = 0;
 
         Vector2 movement = new Vector2();
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
         {
-            movement.add(2, 0);
+            movement.add(moveSpeed * sprint, 0);
             if (walkTimer <= 1)
                 SetSprite("player_right_1.png");
             else
@@ -65,7 +85,7 @@ public class MazePlayer extends Entity {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
         {
-            movement.add(-2, 0);
+            movement.add(-moveSpeed * sprint, 0);
             if (walkTimer <= 1)
                 SetSprite("player_left_1.png");
             else
@@ -74,7 +94,7 @@ public class MazePlayer extends Entity {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP))
         {
-            movement.add(0, 2);
+            movement.add(0, moveSpeed * sprint);
             if (walkDir == "left")
             {
                 if (walkTimer <= 1)
@@ -92,7 +112,7 @@ public class MazePlayer extends Entity {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
         {
-            movement.add(0, -2);
+            movement.add(0, -moveSpeed * sprint);
             if (walkDir == "left")
             {
                 if (walkTimer <= 1)
@@ -109,14 +129,17 @@ public class MazePlayer extends Entity {
             }
         }
 
-        if (isCollidingWithEntityTypeAtPoint(movement.x,0,"Maze Wall") == false)
+        hitbox.setPosition(position.x, position.y);
+        if (isCollidingWithEntityTypeAtPoint(movement.x,0,"Maze Wall") == false && isCollidingWithEntityTypeAtPoint(movement.x,0,("Silver Block")) == false)
         {
             position.add(movement.x, 0);
         }
-        if (isCollidingWithEntityTypeAtPoint(0,movement.y,"Maze Wall") == false)
+        if (isCollidingWithEntityTypeAtPoint(0,movement.y,("Maze Wall")) == false && isCollidingWithEntityTypeAtPoint(0,movement.y,("Silver Block")) == false)
         {
             position.add(0, movement.y);
         }
+        position.set(Math.round(position.x),Math.round(position.y));
+        position2.set(Math.round(position.x),Math.round(position.y));
     }
         super.Update();
     }

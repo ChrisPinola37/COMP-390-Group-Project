@@ -18,12 +18,13 @@ public class MazeKey extends Entity {
         super();
         name = "Key";
         SetSprite("basic_key.png");
+        hitbox.setSize(sprite.getWidth(),sprite.getHeight());
     }
 
     @Override 
     public void Update()
     {
-        if (IsCollidingWithEntityType("Player"))
+        if (IsCollidingWithEntityType(hitbox, "Player"))
         {
             LeaderboardManager.addPoints(100);
            

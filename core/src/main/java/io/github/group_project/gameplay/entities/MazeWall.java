@@ -17,6 +17,7 @@ public class MazeWall extends Entity {
         super();
         name = "Maze Wall";
         SetSprite("wall_vertical.png");
+        hitbox.setSize(sprite.getWidth(),sprite.getHeight());
     }
 
     public void setup(Boolean isHorizontal)
@@ -24,10 +25,12 @@ public class MazeWall extends Entity {
         if (isHorizontal)
         {
             SetSprite("wall_horizontal.png");
+            hitbox.setSize(sprite.getWidth(),sprite.getHeight());
         }
         else
         {
             SetSprite("wall_vertical.png");
+            hitbox.setSize(sprite.getWidth(),sprite.getHeight());
         }
     }
 }

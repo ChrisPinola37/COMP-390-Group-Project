@@ -17,72 +17,87 @@ public class MazeEnemy extends Entity {
         super();
         name = "Enemy";
         SetSprite("enemy.png");
-        SetCollision(60, 60);
+        hitbox.setSize(sprite.getWidth(),sprite.getHeight());
     }
 
     Random random = new Random();
     int movDir = random.nextInt(3);
     int moveChance = 0;
+    float moveSpeed;
 
     @Override 
     public void Update()
     {
-        if (IsCollidingWithEntityType("Player"))
+        if (Gdx.graphics.getDeltaTime() < 1) {
+            delta = Gdx.graphics.getDeltaTime();
+        }
+        moveSpeed = 120 * delta;
+        if (IsCollidingWithEntityType(hitbox,"Player"))
         {
             int playerID = Engine.getFirstEntityIDOfType("Player");
             if (playerID > -1)
             {
                 MazePlayer playerEntity = (MazePlayer) Engine.entities.get(playerID);
-                playerEntity.Defeated();
-                Engine.spawnEntity(Defeat.class, 200, 200);
+                if(playerEntity.defeated == false) {
+                    playerEntity.Defeated();
+                    Engine.spawnEntity(Defeat.class, 200, 200);
+                }
             }
-            destroyed = true;
         }
-        moveChance = random.nextInt(2);
-    
-        if (movDir == 1 || movDir == 3)
+        moveChance = random.nextInt(4);
+        position.set(Math.round(position.x),Math.round(position.y));
+        if ((movDir == 1 || movDir == 3) && ((position.x-2) % 64 == 0 && (position.y-2) % 64 == 0))
         {
-            if((moveChance == 0) && (isCollidingWithEntityTypeAtPoint(2,0,"Maze Wall") == false))
+            if((moveChance != 0) && (isCollidingWithEntityTypeAtPoint(moveSpeed,0,"Maze Wall") == false)) {
+                position.add(moveSpeed,0);
                 movDir = 0;
-            if((moveChance == 0) && (isCollidingWithEntityTypeAtPoint(-2,0,"Maze Wall") == false))
+            }
+            if((moveChance != 0) && (isCollidingWithEntityTypeAtPoint(-moveSpeed,0,"Maze Wall") == false)) {
+                position.add(-moveSpeed,0);
                 movDir = 2;
+            }
         }
-        else
+        else if ((position.x-2) % 64 == 0 && (position.y-2) % 64 == 0)
         {
-            if((moveChance == 0) && (isCollidingWithEntityTypeAtPoint(0,2,"Maze Wall") == false))
+            if((moveChance != 0) && (isCollidingWithEntityTypeAtPoint(0,moveSpeed,"Maze Wall") == false)) {
+                position.add(0,moveSpeed);
                 movDir = 1;
-            if((moveChance == 0) && (isCollidingWithEntityTypeAtPoint(0,-2,"Maze Wall") == false))
+            }
+            if((moveChance != 0) && (isCollidingWithEntityTypeAtPoint(0,-moveSpeed,"Maze Wall") == false)) {
+                position.add(0,-moveSpeed);
                 movDir = 3;
+            }
         }
         
         if (movDir == 0)
         {
-            if (isCollidingWithEntityTypeAtPoint(2,0,"Maze Wall") == false)
-                position.add(2,0);
+            if (isCollidingWithEntityTypeAtPoint(moveSpeed,0,"Maze Wall") == false)
+                position.add(moveSpeed,0);
             else
                 movDir = 2;
         }
         if (movDir == 1)
         {
-            if (isCollidingWithEntityTypeAtPoint(0,-2,"Maze Wall") == false)
-                position.add(0,-2);
+            if (isCollidingWithEntityTypeAtPoint(0,-moveSpeed,"Maze Wall") == false)
+                position.add(0,-moveSpeed);
             else
                 movDir = 3;
         }
         if (movDir == 2)
         {
-            if (isCollidingWithEntityTypeAtPoint(-2,0,"Maze Wall") == false)
-                position.add(-2,0);
+            if (isCollidingWithEntityTypeAtPoint(-moveSpeed,0,"Maze Wall") == false)
+                position.add(-moveSpeed,0);
             else
                 movDir = 0;
         }
         if (movDir == 3)
         {
-            if (isCollidingWithEntityTypeAtPoint(0,2,"Maze Wall") == false)
-                position.add(0,2);
+            if (isCollidingWithEntityTypeAtPoint(0,moveSpeed,"Maze Wall") == false)
+                position.add(0, moveSpeed);
             else
                 movDir = 1;
         }
+        position.set(Math.round(position.x),Math.round(position.y));
 
         super.Update();
     }
