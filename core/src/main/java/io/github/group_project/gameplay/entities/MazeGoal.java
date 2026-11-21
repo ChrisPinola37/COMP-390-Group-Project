@@ -18,12 +18,14 @@ public class MazeGoal extends Entity {
         super();
         name = "Goal";
         SetSprite("star_off.png");
+        hitbox.setSize(sprite.getWidth(),sprite.getHeight());
     }
 
     public void Open()
     {
         open = true;
         SetSprite("star_on.png");
+        hitbox.setSize(sprite.getWidth(),sprite.getHeight());
     }
 
     @Override
@@ -31,7 +33,7 @@ public class MazeGoal extends Entity {
     {
         if (open == true)
         {
-            if (IsCollidingWithEntityType("Player"))
+            if (IsCollidingWithEntityType(hitbox, "Player"))
             {
                 AudioManager.instance.playSound("star", 0.2f);
                 LevelManager.advanceLevel();

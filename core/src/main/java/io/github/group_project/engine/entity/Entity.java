@@ -25,7 +25,11 @@ public class Entity {
     
     public boolean destroyed = false; //Whether the entity is to be destroyed on the next cleanup cycle
 
+    public float delta = Gdx.graphics.getDeltaTime(); //Gets delta time; For any entity that moves, multiply its movement speed by this float so that its movement remains consistent across varying framerates.
+
     public Vector2 position = new Vector2(); //A vector containing the entity's x and y position
+
+    public static Vector2 position2 = new Vector2();
 
     private List<Entity> colliding = new ArrayList<Entity>(); //If a collision check is done, all colliding entities will be stored here
 
@@ -77,7 +81,7 @@ public class Entity {
     {
         sprite = new Texture(spriteName); //I don't think this is correct but it works.
         validSprite = true;
-        SetCollision(sprite.getWidth(), sprite.getHeight());
+        SetCollision(hitbox.width, hitbox.height);
     }
 
     public void SetCollision(float width, float height)
@@ -91,10 +95,6 @@ public class Entity {
         return IsCollidingWithEntityType(new Rectangle(hitbox.x + checkX, hitbox.y + checkY, hitbox.width, hitbox.height),entityName);
     }
 
-    public Boolean IsCollidingWithEntityType(String entityName)
-    {
-        return IsCollidingWithEntityType(hitbox,entityName);
-    }
     public Boolean IsCollidingWithEntityType(Rectangle hitbox, String entityName) //Loops through all entities to find valid collision
     {
         Boolean collided = false;
