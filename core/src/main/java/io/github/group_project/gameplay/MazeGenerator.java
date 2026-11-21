@@ -16,8 +16,14 @@ import io.github.group_project.engine.Engine;
 import io.github.group_project.gameplay.entities.MazeGoal;
 import io.github.group_project.gameplay.entities.MazeKey;
 import io.github.group_project.gameplay.entities.MazePlayer;
+import io.github.group_project.gameplay.entities.MazeSpikeTrap;
 import io.github.group_project.gameplay.entities.MazeWall;
 import io.github.group_project.gameplay.entities.MazeEnemy;
+import io.github.group_project.gameplay.entities.MazeTrapTile;
+import io.github.group_project.gameplay.entities.MazeFireShooter;
+import io.github.group_project.gameplay.entities.MazeBlackHole;
+import io.github.group_project.gameplay.entities.MazeSilverKey;
+import io.github.group_project.gameplay.entities.MazeSilverBlock;
 
 
 public class MazeGenerator { //Handles the logic for generating a level's layout, along with saving and loading levels from a file
@@ -280,6 +286,80 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
 
     public static void loadMaze(List<Boolean> walls,int startX, int startY, int keyX, int keyY)
     {
+        if (LevelManager.level == 1) {
+            Engine.spawnEntity(MazeTrapTile.class, 6*gridSize, 0*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 4*gridSize, 2*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 9*gridSize, 4*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 4*gridSize, 0*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 6*gridSize, 2*gridSize);
+            Engine.spawnEntity(MazeSilverBlock.class, 2*gridSize, 2*gridSize);
+            Engine.spawnEntity(MazeSilverBlock.class, 8*gridSize, 4*gridSize);
+            Engine.spawnEntity(MazeSpikeTrap.class, 2*gridSize, 4*gridSize).setup(true);
+            Engine.spawnEntity(MazeSilverKey.class, 0*gridSize, 7*gridSize);
+            Engine.spawnEntity(MazeEnemy.class, 7*gridSize+2, 6*gridSize+2);
+        }
+        if (LevelManager.level == 2) {
+            Engine.spawnEntity(MazeTrapTile.class, 6*gridSize, 0*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 4*gridSize, 0*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 3*gridSize, 1*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 1*gridSize, 3*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 1*gridSize, 6*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 7*gridSize, 7*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 9*gridSize, 4*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 8*gridSize, 7*gridSize);
+            Engine.spawnEntity(MazeFireShooter.class, 2*gridSize, 5*gridSize);
+            Engine.spawnEntity(MazeSilverBlock.class, 4*gridSize, 1*gridSize);
+            Engine.spawnEntity(MazeSilverBlock.class, 9*gridSize, 3*gridSize);
+            Engine.spawnEntity(MazeSilverBlock.class, 5*gridSize, 6*gridSize);
+            Engine.spawnEntity(MazeSpikeTrap.class, 2*gridSize, 1*gridSize).setup(true);
+            Engine.spawnEntity(MazeSpikeTrap.class, 4*gridSize, 3*gridSize).setup(true);
+            Engine.spawnEntity(MazeSpikeTrap.class, 6*gridSize, 4*gridSize).setup(false);
+            Engine.spawnEntity(MazeSpikeTrap.class, 8*gridSize, 4*gridSize).setup(false);
+            Engine.spawnEntity(MazeSilverKey.class, 5*gridSize, 7*gridSize);
+        }
+        if (LevelManager.level == 3) {
+            Engine.spawnEntity(MazeTrapTile.class, 0*gridSize, 2*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 0*gridSize, 3*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 1*gridSize, 0*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 3*gridSize, 0*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 5*gridSize, 0*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 9*gridSize, 4*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 9*gridSize, 5*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 9*gridSize, 6*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 9*gridSize, 1*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 3*gridSize, 3*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 4*gridSize, 5*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 5*gridSize, 5*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 8*gridSize, 2*gridSize);
+            Engine.spawnEntity(MazeFireShooter.class, 3*gridSize, 4*gridSize);
+            Engine.spawnEntity(MazeFireShooter.class, 7*gridSize, 3*gridSize);
+            Engine.spawnEntity(MazeSilverBlock.class, 2*gridSize, 5*gridSize);
+            Engine.spawnEntity(MazeSilverBlock.class, 8*gridSize, 7*gridSize);
+            Engine.spawnEntity(MazeSpikeTrap.class, 2*gridSize, 6*gridSize).setup(true);
+            Engine.spawnEntity(MazeSpikeTrap.class, 6*gridSize, 7*gridSize).setup(true);
+            Engine.spawnEntity(MazeSpikeTrap.class, 3*gridSize, 2*gridSize).setup(true);
+            Engine.spawnEntity(MazeSpikeTrap.class, 5*gridSize, 2*gridSize).setup(true);
+            Engine.spawnEntity(MazeEnemy.class, 4*gridSize+2, 3*gridSize+2);
+            Engine.spawnEntity(MazeSilverKey.class, 9*gridSize, 3*gridSize);
+        }
+        if (LevelManager.level == 4) {
+            Engine.spawnEntity(MazeTrapTile.class, 2*gridSize, 1*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 0*gridSize, 5*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 6*gridSize, 7*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 9*gridSize, 6*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 2*gridSize, 4*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 2*gridSize, 5*gridSize);
+            Engine.spawnEntity(MazeTrapTile.class, 6*gridSize, 4*gridSize);
+            Engine.spawnEntity(MazeFireShooter.class, 4*gridSize, 2*gridSize);
+            Engine.spawnEntity(MazeSilverBlock.class, 9*gridSize, 3*gridSize);
+            Engine.spawnEntity(MazeSpikeTrap.class, 9*gridSize, 0*gridSize).setup(true);
+            Engine.spawnEntity(MazeSpikeTrap.class, 5*gridSize, 5*gridSize).setup(true);
+            Engine.spawnEntity(MazeEnemy.class, 7*gridSize+2, 3*gridSize+2);
+            Engine.spawnEntity(MazeSilverKey.class, 0*gridSize, 3*gridSize);
+            Engine.spawnEntity(MazeKey.class, 1*gridSize, 0*gridSize);
+        }
+       
+
         for (int i = 0; i < walls.size(); i++)
         {
             int wallType = Math.floorMod(i, 4);
@@ -290,7 +370,7 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
 
             int cellX = Math.floorMod(cellNumber, columns);
             int cellY = (int)Math.floor(cellNumber/columns);
-
+            
             if (isWall == true)
             {
                 switch (wallType)
@@ -310,12 +390,16 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
                 }
             }
         }
-         //Spawn the player
-        Engine.spawnEntity(MazePlayer.class, (startX*gridSize) + 16, (startY*gridSize));
+        if(LevelManager.level != 4)
+            Engine.spawnEntity(MazeKey.class, keyX * gridSize, keyY * gridSize);
+        else
+            Engine.spawnEntity(MazeBlackHole.class, 0*gridSize, 7*gridSize);
+        
+        //Spawn the player
+        Engine.spawnEntity(MazePlayer.class, (startX*gridSize) + 16, (startY*gridSize) + 2);
         Engine.spawnEntity(MazeGoal.class, (startX*gridSize) + 16, (startY*gridSize) + 32);
         
-        Engine.spawnEntity(MazeKey.class, keyX * gridSize, keyY * gridSize);
-        Engine.spawnEntity(MazeEnemy.class, (keyX * gridSize) + 2, (keyY * gridSize) + 2);
+        
     }
 }
 
