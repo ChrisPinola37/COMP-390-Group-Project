@@ -16,6 +16,7 @@ import io.github.group_project.engine.Engine;
 import io.github.group_project.gameplay.entities.MazeGoal;
 import io.github.group_project.gameplay.entities.MazeKey;
 import io.github.group_project.gameplay.entities.MazePlayer;
+import io.github.group_project.gameplay.entities.MazeSpeedBoost;
 import io.github.group_project.gameplay.entities.MazeSpikeTrap;
 import io.github.group_project.gameplay.entities.MazeWall;
 import io.github.group_project.gameplay.entities.MazeEnemy;
@@ -395,6 +396,8 @@ public class MazeGenerator { //Handles the logic for generating a level's layout
         else
             Engine.spawnEntity(MazeBlackHole.class, 0*gridSize, 7*gridSize);
         
+        // Speed boost collectible for US5
+         Engine.spawnEntity(MazeSpeedBoost.class, 3 * gridSize, 3 * gridSize);
         //Spawn the player
         Engine.spawnEntity(MazePlayer.class, (startX*gridSize) + 16, (startY*gridSize) + 2);
         Engine.spawnEntity(MazeGoal.class, (startX*gridSize) + 16, (startY*gridSize) + 32);
