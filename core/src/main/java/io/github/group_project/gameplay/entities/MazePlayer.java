@@ -28,7 +28,7 @@ public class MazePlayer extends Entity {
 private float speedBoostTimer = 0;
 
 public void activateSpeedBoost() {
-    speedBoostTimer = 5f;
+    speedBoostTimer = 20f;
 }
 
     public void Defeated()
