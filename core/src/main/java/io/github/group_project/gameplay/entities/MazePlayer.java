@@ -24,6 +24,13 @@ public class MazePlayer extends Entity {
     float moveSpeed;
     float sprint = 1;
 
+     // Speed power-up
+private float speedBoostTimer = 0;
+
+public void activateSpeedBoost() {
+    speedBoostTimer = 5f;
+}
+
     public void Defeated()
     {
         defeated = true;
@@ -60,10 +67,21 @@ public class MazePlayer extends Entity {
             walkTimer = 0;
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
             walkTimer = 0;
+        // Update temporary speed boost
+        if (speedBoostTimer > 0) {
+            speedBoostTimer -= delta;
+}
+
+        // Keep the existing Shift sprint
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))
-            sprint = (float)1.5;
-        else
-            sprint = 1;
+            sprint = 1.5f;
+         else
+        sprint = 1f;
+
+         // Apply speed boost when active
+        if (speedBoostTimer > 0) {
+        sprint *= 1.5f;
+}
         if (walkDir == "right")
             SetSprite("player_right_0.png");
         if (walkDir == "left")
