@@ -30,9 +30,14 @@ import com.badlogic.gdx.InputAdapter;
 public class Main extends ApplicationAdapter {
     
     private boolean showLeaderboard = false;
+    private TitleScreen titleScreen;
+    private boolean onTitleScreen = true;
 
     @Override
     public void create() {
+        if (titleScreen == null) {
+            titleScreen = new TitleScreen();
+        }
        try {
             Engine.db = Database.production();
             DatabaseInitializer.initialize(Engine.db);
@@ -43,7 +48,7 @@ public class Main extends ApplicationAdapter {
     Gdx.input.setInputProcessor(new InputAdapter() {
     @Override
     public boolean keyTyped(char character) {
-        if (!Engine.typingEnabled == true) {
+        if (onTitleScreen || !Engine.typingEnabled == true) {
             return false;
         }
 
@@ -74,11 +79,11 @@ public class Main extends ApplicationAdapter {
       
 
         
-        MazeGenerator.generateMaze("level1.bin");
+        /**MazeGenerator.generateMaze("level1.bin");
         MazeGenerator.generateMaze("level2.bin");
         MazeGenerator.generateMaze("level3.bin");
         MazeGenerator.generateMaze("level4.bin");
-        MazeGenerator.generateMaze("level5.bin");
+        MazeGenerator.generateMaze("level5.bin");*/
         
 
         LevelManager.startLevel(1);
@@ -96,6 +101,34 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void render() {
+        //ingame audio control with - and + keys
+        float volumeStep = 0.02f;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.MINUS)
+                || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_SUBTRACT)){
+            AudioManager.instance.changeVolume(-volumeStep);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.EQUALS)
+                || Gdx.input.isKeyJustPressed(Input.Keys.PLUS)
+                || Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_ADD)){
+            AudioManager.instance.changeVolume(volumeStep);
+        }
+        //titlescreen loads before game
+        if (onTitleScreen) {
+            int choice = titleScreen.update();
+            if (choice == TitleScreen.PLAY){
+                onTitleScreen = false;
+            } 
+            else if (choice == TitleScreen.QUIT){
+                Gdx.app.exit();
+                return;
+            }
+
+            ScreenUtils.clear(0.1f, 0.1f, 0.15f, 1f);
+            Engine.spriteBatch.begin();
+            titleScreen.draw(Engine.spriteBatch);
+            Engine.spriteBatch.end();
+            return; 
+        }
 
         Engine.updateEntities = true;
         if (!Engine.typingEnabled)
@@ -140,12 +173,15 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void dispose() {
+        if (titleScreen != null) {
+            titleScreen.dispose();
+        }
+
         Engine.spriteBatch.dispose();
 
         if (Engine.leaderboardFont != null) {
             Engine.leaderboardFont.dispose();
         }
-
 
         AudioManager.instance.dispose();
 

@@ -52,7 +52,7 @@ public class AudioManager {
 
 
     //Controller for playing music
-    public void playMusic(float volume){
+    public void playMusic(float startVolume){
         music.setVolume(volume);
         music.setLooping(true);
         music.play();
@@ -70,6 +70,20 @@ public class AudioManager {
             sound.dispose();
         }
         music.dispose();
+    }
+
+    //allows for volume of music to be changed mid-game 
+    private static float volume = 0.085f;
+
+    public void changeVolume(float amount) {
+        volume = com.badlogic.gdx.math.MathUtils.clamp(volume + amount, 0f, 1f);
+        if (music != null) {
+            music.setVolume(volume);
+        }
+    }
+
+    public float getVolume() {
+        return volume;
     }
 
     
